@@ -10,12 +10,13 @@
             --primary: #ff4d6d;
             --cake-base: #f1a7b4;
             --text-color: #590d22;
+            --bg-color: #fff0f3;
         }
 
         body, html {
             margin: 0; padding: 0;
             font-family: 'Georgia', serif;
-            background: #fff0f3;
+            background: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
             text-align: center;
@@ -30,84 +31,118 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             transition: 1s;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .btn-start {
             background: var(--primary);
             color: white; border: none;
-            padding: 18px 45px; font-size: 1.4rem;
+            padding: 15px 35px; font-size: 1.2rem;
             border-radius: 50px; cursor: pointer;
             box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
             transition: 0.3s;
         }
 
-        .btn-start:hover { transform: scale(1.05); background: #c9184a; }
-
         /* --- Navigation --- */
         nav {
             display: none; position: sticky; top: 0;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px); z-index: 900;
-            padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 10px 5px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            white-space: nowrap;
         }
 
         nav button {
             background: transparent; border: 2px solid var(--primary);
-            color: var(--primary); padding: 8px 20px;
-            margin: 0 5px; border-radius: 20px;
+            color: var(--primary); padding: 6px 15px;
+            margin: 2px; border-radius: 20px;
             font-weight: bold; cursor: pointer;
+            font-size: 0.9rem;
         }
 
         nav button.active { background: var(--primary); color: white; }
 
         /* --- Content Layout --- */
-        .page { display: none; padding: 40px 20px; animation: fadeIn 1s; }
-        .page.active { display: block; }
+        .page { display: none; padding: 20px; animation: fadeIn 1s; box-sizing: border-box; }
+        .page.active { display: flex; flex-direction: column; align-items: center; }
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- THE CAKE --- */
+        /* --- THE CAKE (Responsive Scaling) --- */
         .cake-container {
-            position: relative; height: 320px; width: 280px; margin: 50px auto;
+            position: relative; 
+            height: 280px; 
+            width: 250px; 
+            margin: 30px auto;
+            transform: scale(0.9); /* Scales down for smaller mobiles */
         }
+        @media (min-width: 600px) { .cake-container { transform: scale(1.1); margin: 50px auto; } }
+
         .tier {
             position: absolute; background: var(--cake-base);
-            border: 4px solid #fff; border-radius: 80px 80px 15px 15px;
+            border: 3px solid #fff; border-radius: 60px 60px 15px 15px;
             left: 50%; transform: translateX(-50%);
         }
-        .bottom { width: 260px; height: 110px; bottom: 0; }
-        .mid { width: 190px; height: 90px; bottom: 95px; }
+        .bottom { width: 220px; height: 90px; bottom: 0; }
+        .mid { width: 160px; height: 75px; bottom: 80px; }
         .top { 
-            width: 130px; height: 75px; bottom: 175px; 
+            width: 110px; height: 60px; bottom: 145px; 
             background: var(--primary); display: flex; 
             align-items: center; justify-content: center;
         }
-        .name-banner { color: white; font-weight: bold; font-size: 1.2rem; }
+        .name-banner { color: white; font-weight: bold; font-size: 0.9rem; }
         .candle {
-            width: 12px; height: 40px; background: gold;
-            position: absolute; bottom: 250px; left: 50%;
+            width: 10px; height: 35px; background: gold;
+            position: absolute; bottom: 205px; left: 50%;
             transform: translateX(-50%); border-radius: 5px;
         }
         .flame {
-            width: 16px; height: 22px; background: orange;
-            position: absolute; top: -22px; left: -2px;
+            width: 14px; height: 20px; background: orange;
+            position: absolute; top: -18px; left: -2px;
             border-radius: 50% 50% 20% 20%;
             animation: flicker 0.1s infinite alternate;
         }
         @keyframes flicker { to { transform: scale(1.1); opacity: 0.9; } }
 
+        /* --- MESSAGE BOX --- */
+        .message-card {
+            background: white; 
+            padding: 25px; 
+            border-radius: 25px; 
+            width: 90%; 
+            max-width: 500px; 
+            margin: 10px auto; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+
         /* --- BALLOONS --- */
-        .balloon-zone { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
+        .balloon-zone { 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2x2 grid on mobile */
+            gap: 15px; 
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 600px) { .balloon-zone { grid-template-columns: repeat(4, 1fr); } }
+
+        .balloon-wrapper { display: flex; flex-direction: column; align-items: center; }
+
         .balloon {
-            width: 75px; height: 95px; background: var(--primary);
+            width: 60px; height: 80px; background: var(--primary);
             border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 20px; position: relative;
+            color: white; font-size: 1.5rem; position: relative;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .balloon.fly { transform: translateY(-1000px) rotate(45deg); opacity: 0; }
+        
         .revealed-img { 
-            display: none; width: 130px; height: 130px; 
-            border-radius: 50%; border: 4px solid white; 
+            display: none; width: 100px; height: 100px; 
+            border-radius: 50%; border: 3px solid white; 
             object-fit: cover; margin-top: 10px;
             animation: popIn 0.5s;
         }
@@ -117,6 +152,7 @@
         .heart {
             position: fixed; bottom: -50px; color: rgba(255, 77, 109, 0.3);
             z-index: -1; animation: floatUp 6s linear infinite;
+            pointer-events: none;
         }
         @keyframes floatUp { to { transform: translateY(-110vh) rotate(360deg); } }
     </style>
@@ -124,7 +160,7 @@
 <body>
 
     <div id="intro-overlay">
-        <h1 style="color: var(--primary); margin-bottom: 5px;">A Surprise for You</h1>
+        <h1 style="color: var(--primary); margin-bottom: 5px; font-size: 1.8rem;">A Surprise for You</h1>
         <p style="margin-bottom: 25px;">Turn your volume up ❤️</p>
         <button class="btn-start" onclick="start()">Start Our Journey</button>
     </div>
@@ -140,55 +176,46 @@
     </nav>
 
     <div class="page active" id="home">
-        <h1 style="font-size: 2.8rem; margin-top: 20px;">Happy Birthday!</h1>
+        <h1 style="font-size: 2rem; margin: 20px 0;">Happy Birthday!</h1>
         <div class="cake-container">
             <div class="tier bottom"></div>
             <div class="tier mid"></div>
-            <div class="tier top"><div class="name-banner">KAASHVI ANAND</div></div>
+            <div class="tier top"><div class="name-banner">KAASHVI</div></div>
             <div class="candle"><div class="flame"></div></div>
         </div>
-        <p style="font-style: italic; opacity: 0.8;">"You make the world a more beautiful place."</p>
+        <p style="font-style: italic; opacity: 0.8; padding: 0 20px;">"You make the world a more beautiful place."</p>
     </div>
 
     <div class="page" id="message">
-        <div style="background: white; padding: 35px; border-radius: 25px; max-width: 500px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-            <h2 style="color: var(--primary);">To My Beautiful Soulmate,</h2>
-            <p>To the one who sees the world with kindness in her eyes,</p>
-<p>And offers warmth that catches me by surprise.</p>
-<p>You listen with a heart so open and so wide,</p>
-<p>With a gentle, caring spirit you never try to hide.</p>
-<p>                                                  </p>
-<p>I love you for the way you are, so steady and so true,</p>
-<p>There’s a magic in the quiet things that only you can do.</p>
-<p>And though we walk this path as friends, I often find it’s more—</p>
-<p>A deeper kind of feeling than I’ve ever known before.</p>
-<p>                                                     </p>
-<p>You have a way of saying "I love you" that’s all your own,</p>
-<p>In a language of "just checking in" and seeds of comfort sown.</p>
-<p>Whether it’s a sister’s bond or a spark that’s yet to flame,</p>
-<p>My world is simply brighter just for knowing you Kaashvi.</p>
-
-<p>Happy Birthday to my favorite person.</p>
+        <div class="message-card">
+            <h2 style="color: var(--primary); font-size: 1.4rem;">To My Beautiful Soulmate,</h2>
+            <div style="text-align: left; font-size: 0.95rem;">
+                <p>To the one who sees the world with kindness in her eyes,<br>And offers warmth that catches me by surprise.</p>
+                <p>You listen with a heart so open and so wide,<br>With a gentle, caring spirit you never try to hide.</p>
+                <p>I love you for the way you are, so steady and so true,<br>There’s a magic in the quiet things that only you can do.</p>
+                <p>And though we walk this path as friends, I often find it’s more—<br>A deeper kind of feeling than I’ve ever known before.</p>
+                <p>My world is simply brighter just for knowing you Kaashvi.</p>
+            </div>
             <p><b>I love you! ❤️</b></p>
         </div>
     </div>
 
     <div class="page" id="balloons">
-        <h2 style="color: var(--primary);">Pop the balloons for your memories!</h2>
+        <h2 style="color: var(--primary); font-size: 1.3rem;">Pop the balloons for memories!</h2>
         <div class="balloon-zone">
-            <div>
+            <div class="balloon-wrapper">
                 <div class="balloon" onclick="pop(this, 'img1')">🎈</div>
                 <img id="img1" class="revealed-img" src="Image 1.jpg" alt="Memory 1">
             </div>
-            <div>
+            <div class="balloon-wrapper">
                 <div class="balloon" onclick="pop(this, 'img2')" style="background: #ff8fa3;">🎈</div>
                 <img id="img2" class="revealed-img" src="Image 2.jpg" alt="Memory 2">
             </div>
-            <div>
+            <div class="balloon-wrapper">
                 <div class="balloon" onclick="pop(this, 'img3')" style="background: #fb6f92;">🎈</div>
                 <img id="img3" class="revealed-img" src="Image 3.jpg" alt="Memory 3">
             </div>
-            <div>
+            <div class="balloon-wrapper">
                 <div class="balloon" onclick="pop(this, 'img4')" style="background: #ff758f;">🎈</div>
                 <img id="img4" class="revealed-img" src="Image 4.jpg" alt="Memory 4">
             </div>
@@ -197,7 +224,9 @@
 
     <script>
         function start() {
-            document.getElementById('guitarMusic').play();
+            const music = document.getElementById('guitarMusic');
+            music.play().catch(e => console.log("Audio play blocked"));
+            
             document.getElementById('intro-overlay').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('intro-overlay').style.display = 'none';
@@ -205,7 +234,7 @@
             }, 1000);
             
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            setInterval(createHeart, 500);
+            setInterval(createHeart, 600);
         }
 
         function show(id, navId) {
@@ -213,10 +242,11 @@
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById(navId).classList.add('active');
+            window.scrollTo(0,0);
         }
 
         function pop(el, imgId) {
-            confetti({ particleCount: 100, spread: 100, origin: { y: 0.7 } });
+            confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
             el.classList.add('fly');
             setTimeout(() => {
                 el.style.display = 'none';
@@ -229,7 +259,7 @@
             h.classList.add('heart');
             h.innerHTML = '❤️';
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 6000);
         }
